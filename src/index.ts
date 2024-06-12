@@ -35,20 +35,20 @@ const fetchPriceParams = {
 
 const prices = await fetchPrices(fetchPriceParams);
 
-console.log(prices);
-
 const fetchQuoteParams = {
   sellTokenAddress: ethTokenAddress,
   buyTokenAddress: daiTokenAddress,
   sellAmount: BigInt(1e18),
 } as unknown as QuoteRequest;
 
-const quote = (await fetchQuotes(fetchQuoteParams)) as unknown as Quote;
-
+const quote: any = (await fetchQuotes(fetchQuoteParams)) as unknown as Quote;
 console.log(quote);
+const quoteID = quote[0].quoteId;
+console.log(quoteID);
 
-const quoteID = quote.quoteId;
-
-const buildTransaction = await fetchBuildExecuteTransaction(quoteID);
-
-console.log(buildTransaction);
+try {
+  const buildTransaction = await fetchBuildExecuteTransaction(quoteID, accountAddress);
+  console.log(buildTransaction);
+} catch (error) {
+  console.log(error);
+}

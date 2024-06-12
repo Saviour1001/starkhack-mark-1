@@ -33,20 +33,19 @@ const fetchPriceParams = {
   sellAmount: BigInt(1e18),
 } as unknown as PriceRequest;
 
-const prices = await fetchPrices(fetchPriceParams);
-
-const fetchQuoteParams = {
-  sellTokenAddress: ethTokenAddress,
-  buyTokenAddress: daiTokenAddress,
-  sellAmount: BigInt(1e18),
-} as unknown as QuoteRequest;
-
-const quote: any = (await fetchQuotes(fetchQuoteParams)) as unknown as Quote;
-console.log(quote);
-const quoteID = quote[0].quoteId;
-console.log(quoteID);
-
 try {
+  const prices = await fetchPrices(fetchPriceParams);
+
+  const fetchQuoteParams = {
+    sellTokenAddress: ethTokenAddress,
+    buyTokenAddress: daiTokenAddress,
+    sellAmount: BigInt(1e18),
+  } as unknown as QuoteRequest;
+
+  const quote: any = (await fetchQuotes(fetchQuoteParams));
+  console.log(quote);
+  const quoteID = quote[0].quoteId;
+  console.log(quoteID);
   const buildTransaction = await fetchBuildExecuteTransaction(quoteID, accountAddress);
   console.log(buildTransaction);
 } catch (error) {

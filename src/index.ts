@@ -8,7 +8,7 @@ import {
   Quote,
   fetchBuildExecuteTransaction,
 } from "@avnu/avnu-sdk";
-import { writeFileSync } from "fs";
+import { write, writeFileSync } from "fs";
 
 import { Account, RpcProvider } from "starknet";
 import tokens from "../tokens.json";
@@ -42,12 +42,16 @@ try {
     sellAmount: BigInt(1e18),
   } as unknown as QuoteRequest;
 
-  const quote: any = (await fetchQuotes(fetchQuoteParams));
-  console.log(quote);
+  const quote: any = await fetchQuotes(fetchQuoteParams);
+  // console.log(quote);
   const quoteID = quote[0].quoteId;
-  console.log(quoteID);
-  const buildTransaction = await fetchBuildExecuteTransaction(quoteID, accountAddress);
+  // console.log(quoteID);
+  const buildTransaction = await fetchBuildExecuteTransaction(
+    quoteID,
+    accountAddress
+  );
   console.log(buildTransaction);
+  writeFileSync("buildTransaction.json", JSON.stringify(buildTransaction));
 } catch (error) {
   console.log(error);
 }
